@@ -1,6 +1,8 @@
 import { useStore } from "./assets/context/StoreContext";
 import Navbar from "./assets/components/Navbar/Navbar";
 import CategoryManager from "./assets/components/CategoryManager/CategoryManager";
+import ProductForm from "./assets/components/ProductForm/ProductForm";
+import ProductList from "./assets/components/ProductList/ProductList";
 import "./App.css";
 
 function App() {
@@ -10,6 +12,8 @@ function App() {
     <>
       <Navbar />
     <CategoryManager/>
+    <ProductForm />
+    <ProductList />
       {selectedStore ? (
         <p> Comprando en: <strong>{selectedStore}</strong></p>
       ) : (

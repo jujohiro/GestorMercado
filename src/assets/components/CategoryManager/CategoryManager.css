@@ -1,32 +1,33 @@
-/* 🎨 Contenedor principal */
+/*  Contenedor principal */
 .category-manager-container {
     background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 30px auto; /* Espacio arriba y centrado */
+    width: 500px;
+    margin: 40px auto; /* Espacio arriba y centrado */
     text-align: center;
     border-top: 5px solid #007bff; /* Bordes para conexión visual */
   }
   
-  /* 🏷️ Título */
+  /*  Título */
   .category-manager-container h2 {
     color: #0056b3;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: bold;
     margin-bottom: 15px;
   }
   
-  /* 🟢 Input y Botón */
+  /*  Input y Botón */
   .category-input {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 15px;
+    width: 450px;
   }
   
   .category-input input {
-    flex: 1;
+
     padding: 10px;
     border: 2px solid #007bff;
     border-radius: 5px;
@@ -48,7 +49,7 @@
     background: #218838;
   }
   
-  /* 📜 Lista de Categorías */
+  /*  Lista de Categorías */
   .category-list {
     list-style: none;
     padding: 0;
@@ -62,11 +63,12 @@
     background: #f8f9fa;
     margin: 5px 0;
     border-radius: 5px;
-    border-left: 5px solid #007bff;
+    border-left: 10px solid #007bff;
   }
   
-  /* ❌ Botón de eliminar */
+  /*  Botón de eliminar */
   .category-list button {
+    width: 100px;
     background: red;
     color: white;
     border: none;
