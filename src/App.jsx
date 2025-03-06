@@ -1,5 +1,6 @@
 import { useStore } from "./assets/context/StoreContext";
 import Navbar from "./assets/components/Navbar/Navbar";
+import CategoryManager from "./assets/components/CategoryManager/CategoryManager";
 import "./App.css";
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
   return (
     <>
       <Navbar />
-    
+    <CategoryManager/>
       {selectedStore ? (
         <p> Comprando en: <strong>{selectedStore}</strong></p>
       ) : (

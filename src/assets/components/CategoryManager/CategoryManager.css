@@ -1,0 +1,102 @@
+/* 🎨 Contenedor principal */
+.category-manager-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 30px auto; /* Espacio arriba y centrado */
+    text-align: center;
+    border-top: 5px solid #007bff; /* Bordes para conexión visual */
+  }
+  
+  /* 🏷️ Título */
+  .category-manager-container h2 {
+    color: #0056b3;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  /* 🟢 Input y Botón */
+  .category-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .category-input input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .category-input button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: white;
+    background: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .category-input button:hover {
+    background: #218838;
+  }
+  
+  /* 📜 Lista de Categorías */
+  .category-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .category-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f8f9fa;
+    margin: 5px 0;
+    border-radius: 5px;
+    border-left: 5px solid #007bff;
+  }
+  
+  /* ❌ Botón de eliminar */
+  .category-list button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  
+  .category-list button:hover {
+    background: darkred;
+  }
+  
+  /* 📱 Responsive */
+  @media (max-width: 768px) {
+    .category-manager-container {
+      max-width: 90%;
+      padding: 15px;
+    }
+  
+    .category-input {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .category-input input {
+      width: 100%;
+    }
+  
+    .category-input button {
+      width: 100%;
+    }
+  }
+  

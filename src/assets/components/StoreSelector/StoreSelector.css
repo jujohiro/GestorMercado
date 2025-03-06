@@ -1,34 +1,38 @@
+/* 🔧 Contenedor del selector de tienda */
 .store-selector-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(135deg, #f0f0f0, #ffffff);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin: 20px auto;
-    text-align: center;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+    margin: 0;
   }
   
+  /* 🎯 Etiqueta del selector */
   .store-selector-label {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 8px;
+    color: white;
+    margin-bottom: 5px;
   }
   
+  /* 🔽 Estilos del Dropdown */
   .store-selector-dropdown {
-    width: 100%;
-    padding: 10px;
+    width: auto;
+    padding: 8px;
     font-size: 1rem;
-    border: 2px solid #4caf50;
+    border: 2px solid #fff;
     border-radius: 5px;
     background: #fff;
+    color: #333;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
   }
   
+  /* 🟢 Efectos al pasar el mouse */
   .store-selector-dropdown:hover {
     border-color: #388e3c;
   }
@@ -39,14 +43,12 @@
     box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
   }
   
+  /* ✅ Texto de la tienda seleccionada */
   .selected-store {
-    margin-top: 15px;
-    font-size: 1.1rem;
+    margin-top: 5px;
+    font-size: 0.9rem;
     font-weight: bold;
-    color: #388e3c;
-    padding: 10px;
-    background: rgba(76, 175, 80, 0.1);
-    border-radius: 5px;
-    display: inline-block;
+    color: white;
+    background: none;
   }
   
