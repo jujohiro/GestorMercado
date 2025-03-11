@@ -43,7 +43,7 @@
     box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
   }
   
-  /* ✅ Texto de la tienda seleccionada */
+  /* Texto de la tienda seleccionada */
   .selected-store {
     margin-top: 5px;
     font-size: 0.9rem;
