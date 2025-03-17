@@ -1,4 +1,3 @@
-/* Contenedor del formulario */
 .product-form-container {
     background: white;
     padding: 20px;
@@ -10,7 +9,6 @@
     border-top: 5px solid #007bff;
   }
   
-  /* Título */
   .product-form-container h2 {
     color: #0056b3;
     font-size: 1.5rem;
@@ -18,26 +16,16 @@
     margin-bottom: 15px;
   }
   
-  /* Estilos para el formulario */
   .product-form-container form {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espaciado uniforme */
+    gap: 15px;
     align-items: center;
   }
   
-  /* Contenedor para inputs y select */
-  .product-form-container .input-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  /* Campos de entrada */
   .product-form-container input,
   .product-form-container select {
-    width: calc(100% - 20px); /* Ajustar con margen uniforme */
+    width: 90%;
     padding: 10px;
     font-size: 1rem;
     border: 2px solid #007bff;
@@ -45,20 +33,16 @@
     background: #f8f9fa;
     color: #333;
     transition: border-color 0.3s;
-    margin: 0 auto;
-    display: block;
   }
   
-  /* Efecto cuando el usuario enfoca el campo */
   .product-form-container input:focus,
   .product-form-container select:focus {
     border-color: #0056b3;
     outline: none;
   }
   
-  /* Botón de agregar */
   .product-form-container button {
-    width: calc(100% - 20px);
+    width: 90%;
     padding: 10px;
     font-size: 1rem;
     color: white;
@@ -67,16 +51,12 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
-    margin: 0 auto;
-    display: block;
   }
   
-  /* Efecto hover en el botón */
   .product-form-container button:hover {
     background: #218838;
   }
   
-  /* Responsive */
   @media (max-width: 768px) {
     .product-form-container {
       max-width: 90%;
@@ -86,8 +66,7 @@
     .product-form-container input,
     .product-form-container select,
     .product-form-container button {
-      width: calc(100% - 30px); /* Ajuste extra en móviles */
+      width: calc(100% - 30px);
     }
   }
-  
   

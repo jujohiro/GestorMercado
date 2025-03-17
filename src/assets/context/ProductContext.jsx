@@ -15,9 +15,15 @@ export const ProductProvider = ({ children }) => {
     setProducts([...products, product]);
   };
 
+  // Actualizar un producto
+  const updateProduct = (updatedProduct) => {
+    setProducts(products.map(p => (p.id === updatedProduct.id ? updatedProduct : p)));
+  };
+
   return (
-    <ProductContext.Provider value={{ products, addProduct }}>
+    <ProductContext.Provider value={{ products, addProduct, updateProduct }}>
       {children}
     </ProductContext.Provider>
   );
 };
+

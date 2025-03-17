@@ -1,44 +1,66 @@
-import { useState } from "react";
-import { useCategory } from "../../context/CategoryContext";
-import "./CategoryManager.css"; // Estilos para mejorar la UI
+import { useState, useEffect } from "react";
+import "./CategoryManager.css";
+
+const defaultCategories = [
+  { id: 1, name: "Granos", image: "/images/granos.jpg" },
+  { id: 2, name: "Lácteos", image: "/images/lacteos.jpg" },
+  { id: 3, name: "Dulces", image: "/images/dulces.jpg" },
+  { id: 4, name: "Carnes", image: "/images/carnes.jpg" },
+  { id: 5, name: "Limpieza", image: "/images/limpieza.jpg" },
+  { id: 6, name: "Bebidas", image: "/images/bebidas.jpg" },
+  { id: 7, name: "Frutas", image: "/images/frutas.jpg" },
+  { id: 8, name: "Verduras", image: "/images/verduras.jpg" },
+  { id: 9, name: "Panadería", image: "/images/panaderia.jpg" },
+  { id: 10, name: "Enlatados", image: "/images/enlatados.jpg" },
+  { id: 11, name: "Hogar", image: "/images/hogar.jpg" },
+];
 
 const CategoryManager = () => {
-  const { categories, addCategory, removeCategory } = useCategory();
-  const [newCategory, setNewCategory] = useState("");
+  const [categories, setCategories] = useState(() => {
+    const storedCategories = JSON.parse(localStorage.getItem("categories"));
+    return storedCategories || defaultCategories;
+  });
 
-  const handleAddCategory = () => {
-    if (newCategory.trim() !== "") {
-      addCategory(newCategory.trim());
-      setNewCategory(""); // Limpiar input después de agregar
-    }
+  const [newCategory, setNewCategory] = useState("");
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("categories", JSON.stringify(categories));
+  }, [categories]);
+
+  const addCategory = () => {
+    if (newCategory.trim() === "" || image.trim() === "") return;
+
+    const newCat = { id: categories.length + 1, name: newCategory, image };
+    setCategories([...categories, newCat]);
+    setNewCategory("");
+    setImage("");
   };
 
   return (
-    <div className="category-manager-container">
-      <h2>Administrar Categorías</h2>
-      
-      <div className="category-input">
-        <input
-          type="text"
-          placeholder="Nueva categoría"
-          value={newCategory}
+    <div className="category-container">
+      {categories.map(category => (
+        <div key={category.id} className="category-card">
+          <img src={category.image} alt={category.name} className="category-image" />
+          <h3>{category.name}</h3>
+        </div>
+      ))}
+
+      <div className="add-category">
+        <input 
+          type="text" 
+          placeholder="Nueva Categoría" 
+          value={newCategory} 
           onChange={(e) => setNewCategory(e.target.value)}
         />
-        <button onClick={handleAddCategory}>Agregar</button>
+        <input 
+          type="text" 
+          placeholder="URL Imagen" 
+          value={image} 
+          onChange={(e) => setImage(e.target.value)}
+        />
+        <button onClick={addCategory}>Agregar Categoría</button>
       </div>
-
-      <ul className="category-list">
-        {categories.length === 0 ? (
-          <p>No hay categorías creadas.</p>
-        ) : (
-          categories.map((category, index) => (
-            <li key={index}>
-              {category}
-              <button onClick={() => removeCategory(category)}>❌</button>
-            </li>
-          ))
-        )}
-      </ul>
     </div>
   );
 };

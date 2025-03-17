@@ -1,14 +1,17 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
-// Creamos el contexto
 const StoreContext = createContext();
 
-// Hook personalizado para acceder al contexto
 export const useStore = () => useContext(StoreContext);
 
-// Proveedor del contexto
 export const StoreProvider = ({ children }) => {
-  const [selectedStore, setSelectedStore] = useState(null);
+  const [selectedStore, setSelectedStore] = useState(
+    localStorage.getItem("selectedStore") || null
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedStore", selectedStore);
+  }, [selectedStore]);
 
   return (
     <StoreContext.Provider value={{ selectedStore, setSelectedStore }}>
@@ -16,3 +19,4 @@ export const StoreProvider = ({ children }) => {
     </StoreContext.Provider>
   );
 };
+

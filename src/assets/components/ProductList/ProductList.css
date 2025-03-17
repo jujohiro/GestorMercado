@@ -1,59 +1,96 @@
-/* Contenedor de la lista de productos */
-.product-list-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 30px auto;
-    text-align: center;
-    border-top: 5px solid #007bff;
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  padding: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.product-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.edit-input {
+  width: 90%;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.edit-btn {
+  background: #ffc107;
+  color: black;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #e0a800;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #218838;
+}
+
+@media (max-width: 768px) {
+  .product-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
-  
-  /* Título */
-  .product-list-container h2 {
-    color: #0056b3;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  /* Lista de productos */
-  .product-list-container ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Cada producto en la lista */
-  .product-list-container li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+  .product-card {
     padding: 10px;
-    background: #f8f9fa;
-    margin: 5px 0;
-    border-radius: 5px;
-    border-left: 5px solid #007bff;
-    font-size: 1rem;
   }
-  
-  /* Estilo de los textos en la lista */
-  .product-list-container li strong {
-    color: #333;
+
+  .product-image {
+    height: 120px;
   }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .product-list-container {
-      max-width: 90%;
-      padding: 15px;
-    }
-  
-    .product-list-container li {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-    }
-  }
-  
+}

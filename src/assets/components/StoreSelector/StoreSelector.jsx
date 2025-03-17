@@ -1,21 +1,19 @@
-import { useStore } from "../../../assets/context/StoreContext";
-import "./StoreSelector.css"; // ✅ Importamos el nuevo CSS
+import { useStore } from "../../context/StoreContext";
+import "./StoreSelector.css"; 
 
 const StoreSelector = () => {
   const { selectedStore, setSelectedStore } = useStore();
 
-  const tiendas = ["Tiendas D1", "Tienda Súper Inter", "Ara", "Éxito", "Agromercado la Montaña", "Otro"];
+  const tiendas = ["Tiendas D1", "Súper Inter", "Ara", "Éxito", "Agromercado La Montaña", "Otro"];
 
   return (
     <div className="store-selector-container">
-      <label htmlFor="store-select" className="store-selector-label">
-        Seleccionar tienda:
-      </label>
+      <label htmlFor="store-select" className="store-selector-label">Seleccionar tienda:</label>
       <select
         id="store-select"
-        className="store-selector-dropdown"
         value={selectedStore || ""}
         onChange={(e) => setSelectedStore(e.target.value)}
+        className="store-selector-dropdown"
       >
         <option value="" disabled>Seleccione una tienda</option>
         {tiendas.map((store) => (
@@ -24,11 +22,7 @@ const StoreSelector = () => {
           </option>
         ))}
       </select>
-      {selectedStore && (
-        <p className="selected-store">
-          Tienda seleccionada: <strong>{selectedStore}</strong>
-        </p>
-      )}
+      {selectedStore && <p className="selected-store">🏬 Tienda seleccionada: <strong>{selectedStore}</strong></p>}
     </div>
   );
 };
