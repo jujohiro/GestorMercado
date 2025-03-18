@@ -1,27 +1,40 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { db } from "../components/Firebase/FirebaseConfig"; // Importar Firestore
 
-// Crear contexto
 const ProductContext = createContext();
 
-// Hook personalizado
 export const useProduct = () => useContext(ProductContext);
 
-// Proveedor del contexto
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
-  // Agregar un producto a la lista
-  const addProduct = (product) => {
-    setProducts([...products, product]);
-  };
+  // 🔹 Cargar productos desde Firestore
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const querySnapshot = await getDocs(collection(db, "products"));
+      const productsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProducts(productsData);
+    };
 
-  // Actualizar un producto
-  const updateProduct = (updatedProduct) => {
-    setProducts(products.map(p => (p.id === updatedProduct.id ? updatedProduct : p)));
+    fetchProducts();
+  }, []);
+
+  // 🔹 Agregar un producto a Firestore
+  const addProduct = async (product) => {
+    try {
+      const docRef = await addDoc(collection(db, "products"), product);
+      setProducts([...products, { id: docRef.id, ...product }]);
+    } catch (error) {
+      console.error("Error agregando producto:", error);
+    }
   };
 
   return (
-    <ProductContext.Provider value={{ products, addProduct, updateProduct }}>
+    <ProductContext.Provider value={{ products, addProduct }}>
       {children}
     </ProductContext.Provider>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./CategoryManager.css";
 
 const defaultCategories = [
@@ -16,6 +17,7 @@ const defaultCategories = [
 ];
 
 const CategoryManager = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState(() => {
     const storedCategories = JSON.parse(localStorage.getItem("categories"));
     return storedCategories || defaultCategories;
@@ -37,10 +39,19 @@ const CategoryManager = () => {
     setImage("");
   };
 
+  // 👉 Función para redirigir a los productos de la categoría
+  const goToCategoryProducts = (categoryName) => {
+    navigate(`/productos/${categoryName}`);
+  };
+
   return (
     <div className="category-container">
       {categories.map(category => (
-        <div key={category.id} className="category-card">
+        <div 
+          key={category.id} 
+          className="category-card"
+          onClick={() => goToCategoryProducts(category.name)}
+        >
           <img src={category.image} alt={category.name} className="category-image" />
           <h3>{category.name}</h3>
         </div>

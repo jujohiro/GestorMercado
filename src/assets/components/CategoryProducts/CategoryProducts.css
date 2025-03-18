@@ -1,0 +1,128 @@
+.category-products-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* 🔹 Grid más compacto */
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  /* 🔹 Tarjeta más compacta */
+  .product-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 12px;
+    transition: transform 0.2s ease-in-out;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px; /* 🔹 Tarjeta más pequeña */
+  }
+  
+  .product-card:hover {
+    transform: scale(1.03);
+  }
+  
+  /* 🔹 Imagen más proporcionada */
+  .product-image {
+    width: 100px; 
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+  }
+  
+  /* 🔹 Información del producto */
+  .product-card h3 {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .product-card p {
+    font-size: 0.85rem;
+    color: #555;
+    margin: 2px 0;
+  }
+  
+  /* 🔹 Contenedor de botones */
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  
+  /* 🔹 Botones más pequeños */
+  .edit-btn, .delete-btn, .save-btn {
+    padding: 5px 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: 0.2s ease-in-out;
+  }
+  
+  /* ✏️ Botón de Editar */
+  .edit-btn {
+    background: #ffc107;
+    color: black;
+  }
+  
+  .edit-btn:hover {
+    background: #e0a800;
+  }
+  
+  /* 🗑️ Botón de Eliminar */
+  .delete-btn {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .delete-btn:hover {
+    background: #c82333;
+  }
+  
+  /* 💾 Botón de Guardar */
+  .save-btn {
+    background: #28a745;
+    color: white;
+  }
+  
+  .save-btn:hover {
+    background: #218838;
+  }
+  
+  /* 📱 Responsive */
+  @media (max-width: 600px) {
+    .product-list {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+  
+    .product-card {
+      width: 140px;
+      padding: 10px;
+    }
+  
+    .product-image {
+      width: 80px;
+      height: 80px;
+    }
+  
+    .edit-btn, .delete-btn, .save-btn {
+      font-size: 0.7rem;
+      padding: 4px 6px;
+    }
+  }
+  
