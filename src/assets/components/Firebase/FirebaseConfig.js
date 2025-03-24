@@ -1,15 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  GithubAuthProvider, 
-  FacebookAuthProvider, 
-  signInWithPopup, 
-  signOut, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  setPersistence, 
-  browserSessionPersistence 
+import {
+  browserSessionPersistence,
+  FacebookAuthProvider,
+  getAuth,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  setPersistence
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"; // Importar Firestore
 

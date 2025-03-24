@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import StoreSelector from "../StoreSelector/StoreSelector";
 import "./Navbar.css";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const navigate=useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();         // Cierra sesión en Firebase
+      navigate("/login");     // Redirige al login
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error.message);
+    }
+  };
 
   return (
     <nav className="navbar">

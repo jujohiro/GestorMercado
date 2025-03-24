@@ -11,8 +11,8 @@ import {
   signOut
 } from "firebase/auth";
 import appFirebase from "../components/Firebase/FirebaseConfig";
+import { auth } from "../components/Firebase/FirebaseConfig";
 
-const auth = getAuth(appFirebase);
 
 const AuthContext = createContext();
 
@@ -38,7 +38,9 @@ export const AuthProvider = ({ children }) => {
   const loginWithGithub = () => signInWithPopup(auth, new GithubAuthProvider());
   const loginWithFacebook = () => signInWithPopup(auth, new FacebookAuthProvider());
   
-  const logout = () => signOut(auth);
+  const logout = () => {
+    return signOut(auth);
+  };
 
   return (
     <AuthContext.Provider value={{ user, loginWithEmail, registerWithEmail, loginWithGoogle, loginWithGithub, loginWithFacebook, logout }}>
