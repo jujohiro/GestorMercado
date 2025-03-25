@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-import { db } from "../components/Firebase/FirebaseConfig"; // Importar Firestore
+import { db } from "../components/Firebase/FirebaseConfig";
+import { collection, addDoc, onSnapshot, doc, updateDoc } from "firebase/firestore";
 
 const ProductContext = createContext();
 
@@ -9,34 +9,54 @@ export const useProduct = () => useContext(ProductContext);
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
-  // 🔹 Cargar productos desde Firestore
   useEffect(() => {
-    const fetchProducts = async () => {
-      const querySnapshot = await getDocs(collection(db, "products"));
-      const productsData = querySnapshot.docs.map(doc => ({
+    const unsubscribe = onSnapshot(collection(db, "products"), (snapshot) => {
+      const productsData = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
       setProducts(productsData);
-    };
+    });
 
-    fetchProducts();
+    return () => unsubscribe();
   }, []);
 
-  // 🔹 Agregar un producto a Firestore
   const addProduct = async (product) => {
     try {
-      const docRef = await addDoc(collection(db, "products"), product);
-      setProducts([...products, { id: docRef.id, ...product }]);
+      await addDoc(collection(db, "products"), {
+        ...product,
+        status: "active", // Estado inicial del producto
+        createdAt: new Date(),
+      });
     } catch (error) {
-      console.error("Error agregando producto:", error);
+      console.error("Error adding product: ", error);
+    }
+  };
+
+  // en ProductContext.jsx
+
+const removeProduct = async (id) => {
+  try {
+    const productRef = doc(db, "products", id);
+    await updateDoc(productRef, { status: "inactive" });
+    console.log(`Producto ${id} marcado como inactivo`);
+  } catch (error) {
+    console.error("Error al eliminar producto (marcar como inactivo):", error);
+  }
+};
+
+  const updateProductStatus = async (id, newStatus) => {
+    try {
+      const productRef = doc(db, "products", id);
+      await updateDoc(productRef, { status: newStatus });
+    } catch (error) {
+      console.error("Error updating product status: ", error);
     }
   };
 
   return (
-    <ProductContext.Provider value={{ products, addProduct }}>
+    <ProductContext.Provider value={{ products, addProduct, updateProductStatus, removeProduct }}>
       {children}
     </ProductContext.Provider>
   );
 };
-

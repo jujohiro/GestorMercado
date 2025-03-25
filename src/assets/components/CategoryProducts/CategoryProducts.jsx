@@ -1,66 +1,52 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useProduct } from "../../context/ProductContext";
 import ProductForm from "../ProductForm/ProductForm";
 import "./CategoryProducts.css";
 
 const CategoryProducts = () => {
   const { categoryName } = useParams();
-  const [products, setProducts] = useState([]);
+  const { products, addProduct, updateProductStatus, removeProduct } = useProduct();
   const [editingProduct, setEditingProduct] = useState(null);
+  const [editedData, setEditedData] = useState({});
 
-  useEffect(() => {
-    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    setProducts(storedProducts.filter((p) => p.category === categoryName));
-  }, [categoryName]);
-
-  const addProduct = (product) => {
-    const newProduct = { id: Date.now(), category: categoryName, ...product };
-    const updatedProducts = [...products, newProduct];
-    setProducts(updatedProducts);
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
-  };
+  const filteredProducts = products.filter(
+    (product) => product.category === categoryName && product.status !== "inactive"
+  );
 
   const handleEdit = (product) => {
-    setEditingProduct(product);
+    setEditingProduct(product.id);
+    setEditedData(product);
   };
 
   const handleChange = (e) => {
-    setEditingProduct({ ...editingProduct, [e.target.name]: e.target.value });
+    setEditedData({ ...editedData, [e.target.name]: e.target.value });
   };
 
   const handleSave = () => {
-    const updatedProducts = products.map((p) => 
-      p.id === editingProduct.id ? editingProduct : p
-    );
-    setProducts(updatedProducts);
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
+    updateProductStatus(editingProduct, editedData);
     setEditingProduct(null);
-  };
-
-  const deleteProduct = (id) => {
-    const updatedProducts = products.filter((p) => p.id !== id);
-    setProducts(updatedProducts);
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
   };
 
   return (
     <div className="category-products-container">
       <h2>Productos en {categoryName}</h2>
-      <ProductForm onAddProduct={addProduct} />
-      
+
+      <ProductForm onAddProduct={addProduct} category={categoryName} />
+
       <div className="product-list">
-        {products.length > 0 ? (
-          products.map((product) => (
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
             <div key={product.id} className="product-card">
               <img src={product.image} alt={product.name} className="product-image" />
-              
-              {editingProduct?.id === product.id ? (
+
+              {editingProduct === product.id ? (
                 <>
-                  <input type="text" name="name" value={editingProduct.name} onChange={handleChange} className="edit-input" />
-                  <input type="text" name="brand" value={editingProduct.brand} onChange={handleChange} className="edit-input" />
-                  <input type="number" name="price" value={editingProduct.price} onChange={handleChange} className="edit-input" />
-                  <input type="text" name="unit" value={editingProduct.unit} onChange={handleChange} className="edit-input" />
-                  <button onClick={handleSave} className="save-btn">Guardar</button>
+                  <input name="name" value={editedData.name} onChange={handleChange} />
+                  <input name="brand" value={editedData.brand} onChange={handleChange} />
+                  <input name="price" type="number" value={editedData.price} onChange={handleChange} />
+                  <input name="unit" value={editedData.unit} onChange={handleChange} />
+                  <button className="save-btn" onClick={handleSave}>Guardar</button>
                 </>
               ) : (
                 <>
@@ -68,8 +54,8 @@ const CategoryProducts = () => {
                   <p><strong>Marca:</strong> {product.brand}</p>
                   <p><strong>Precio:</strong> ${product.price} / {product.unit}</p>
                   <div className="btn-group">
-                    <button onClick={() => handleEdit(product)} className="edit-btn">Editar</button>
-                    <button onClick={() => deleteProduct(product.id)} className="delete-btn">Eliminar</button>
+                  <button onClick={() => handleEdit(product)}>Editar</button>
+                 <button onClick={() => removeProduct(product.id)}>Eliminar</button>
                   </div>
                 </>
               )}

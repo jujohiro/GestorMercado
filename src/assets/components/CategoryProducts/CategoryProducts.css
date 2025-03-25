@@ -62,6 +62,7 @@
     justify-content: center;
     gap: 5px;
     margin-top: 8px;
+    color: #c82333;
   }
   
   /* 🔹 Botones más pequeños */
@@ -86,7 +87,7 @@
   
   /* 🗑️ Botón de Eliminar */
   .delete-btn {
-    background: #dc3545;
+    background: #d2071b;
     color: white;
   }
   
