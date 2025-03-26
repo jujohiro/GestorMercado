@@ -1,69 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useProduct } from "../../context/ProductContext";
+import ProductFilter from "../ProductFilter/ProductFilter";
 import "./ProductList.css";
 
-const ProductList = ({ category }) => {
-  const { products, updateProduct, removeProduct } = useProduct();
-  const [editingProduct, setEditingProduct] = useState(null);
+const ProductList = () => {
+  const { products } = useProduct();
+  const [filters, setFilters] = useState({
+    name: "",
+    brand: "",
+    category: "",
+    minPrice: "",
+    maxPrice: "",
+  });
 
-  // Filtrar productos por categoría
-  const filteredProducts = category 
-    ? products.filter(product => product.category === category)
-    : products;
-
-  const handleEdit = (product) => {
-    setEditingProduct(product);
+  const handleFilterChange = (updatedFilters) => {
+    setFilters(updatedFilters);
   };
 
-  const handleChange = (e) => {
-    setEditingProduct({ ...editingProduct, [e.target.name]: e.target.value });
-  };
+  const filteredProducts = products.filter((product) => {
+    const nameMatch = product.name.toLowerCase().includes(filters.name.toLowerCase());
+    const brandMatch = product.brand.toLowerCase().includes(filters.brand.toLowerCase());
+    const categoryMatch = product.category.toLowerCase().includes(filters.category.toLowerCase());
+    const minPriceMatch = filters.minPrice === "" || product.price >= parseFloat(filters.minPrice);
+    const maxPriceMatch = filters.maxPrice === "" || product.price <= parseFloat(filters.maxPrice);
 
-  const handleSave = () => {
-    updateProduct(editingProduct);
-    setEditingProduct(null);
-  };
+    return nameMatch && brandMatch && categoryMatch && minPriceMatch && maxPriceMatch;
+  });
 
   return (
-    <div className="product-container">
-      {filteredProducts.length > 0 ? (
-        filteredProducts.map(product => (
-          <div key={product.id} className="product-card">
-            <img
-              src={product.image.startsWith("http") ? product.image : "/images/default.png"}
-              alt={product.name}
-              className="product-image"
-              onError={(e) => e.target.src = "/images/default.png"}
-            />
-            
-            {editingProduct?.id === product.id ? (
-              <>
-                <input type="text" name="name" value={editingProduct.name} onChange={handleChange} className="edit-input" />
-                <input type="text" name="brand" value={editingProduct.brand} onChange={handleChange} className="edit-input" />
-                <input type="number" name="price" value={editingProduct.price} onChange={handleChange} className="edit-input" />
-                <input type="text" name="unit" value={editingProduct.unit} onChange={handleChange} className="edit-input" />
-                <button onClick={handleSave} className="save-btn">Guardar</button>
-              </>
-            ) : (
-              <>
-                <h3>{product.name}</h3>
-                <p><strong>Marca:</strong> {product.brand}</p>
-                <p><strong>Precio:</strong> ${product.price} / {product.unit}</p>
-                <p><strong>Categoría:</strong> {product.category}</p>
-                <div className="btn-group">
-                  <button onClick={() => handleEdit(product)} className="edit-btn">Editar</button>
-                  <button onClick={() => removeProduct(product.id)} className="delete-btn">Eliminar</button>
-                </div>
-              </>
-            )}
-          </div>
-        ))
-      ) : (
-        <p>No hay productos en esta categoría.</p>
-      )}
+    <div>
+      <ProductFilter onFilterChange={handleFilterChange} />
+      <div className="product-container">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <div key={product.id} className="product-card">
+              <img src={product.image} alt={product.name} className="product-image" />
+              <h3>{product.name}</h3>
+              <p>Marca: {product.brand}</p>
+              <p>Precio: ${product.price}</p>
+              <p>Categoría: {product.category}</p>
+            </div>
+          ))
+        ) : (
+          <p>No se encontraron productos que coincidan con los filtros aplicados.</p>
+        )}
+      </div>
     </div>
   );
 };
 
 export default ProductList;
-
