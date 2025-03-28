@@ -7,6 +7,9 @@ import CategoryProducts from "./assets/components/CategoryProducts/CategoryProdu
 import ProductList from "./assets/components/ProductList/ProductList";
 import Login from "./assets/components/Auth/Login";
 import HomeComponent from "./assets/components/Home";
+import ComparePrices from "./assets/components/GeneralPages/ComparePrices";
+import FilterProducts from "./assets/components/GeneralPages/FilterProducts";
+
 import "./App.css";
 
 function App() {
@@ -24,6 +27,9 @@ function App() {
             <Route path="/productos/:categoryName" element={<CategoryProducts />} />
             <Route path="/productos/agregar/:categoryName" element={<ProductForm />} />
             <Route path="/productos/lista" element={<ProductList />} />
+            <Route path="/compare-prices" element={<ComparePrices />} />
+            <Route path="/filter-products" element={<FilterProducts />} />
+
           </>
         )}
       </Routes>

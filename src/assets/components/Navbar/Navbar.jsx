@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
 import StoreSelector from "../StoreSelector/StoreSelector";
 import "./Navbar.css";
 
@@ -29,18 +30,14 @@ const Navbar = () => {
       )}
 
       <div className="navbar-right">
-        {user ? (
-          <>
-            <div className="user-info">
-              <img src={user.photoURL || "/default-avatar.png"} alt="Perfil" className="navbar-profile-img" />
-              <span className="user-name">{user.displayName || user.email}</span>
-            </div>
-            <button onClick={logout} className="logout-btn">Cerrar Sesión</button>
-          </>
-        ) : (
-          <Link to="/login" className="login-btn">Iniciar Sesión</Link>
-        )}
-      </div>
+  <HamburgerMenu />
+  <div className="user-info">
+    <img src={user.photoURL || "/default-avatar.png"} alt="Perfil" className="navbar-profile-img" />
+    <span className="user-name">{user.displayName || user.email}</span>
+  </div>
+  <button onClick={logout} className="logout-btn">Cerrar Sesión</button>
+</div>
+
     </nav>
   );
 };

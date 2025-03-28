@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useProduct } from "../../context/ProductContext";
+import { Timestamp } from "firebase/firestore";
 import "./ProductForm.css";
 
 const ProductForm = ({ category }) => {
@@ -17,8 +18,17 @@ const ProductForm = ({ category }) => {
       return;
     }
 
-    addProduct({ name, brand, price, unit, category, image });
+    addProduct({
+      name,
+      brand,
+      price: parseFloat(price),
+      unit,
+      category,
+      image,
+      fecha: Timestamp.fromDate(new Date()) // ✅ FECHA ACTUAL
+    });
 
+    // Limpiar campos
     setName("");
     setBrand("");
     setPrice("");

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ProductFilter.css";
 
 const ProductFilter = ({ onFilterChange }) => {
@@ -14,7 +14,7 @@ const ProductFilter = ({ onFilterChange }) => {
     const { name, value } = e.target;
     const updatedFilters = { ...localFilters, [name]: value };
     setLocalFilters(updatedFilters);
-    onFilterChange(updatedFilters);
+    onFilterChange(updatedFilters); // 👉 comunicar al padre
   };
 
   const handleClearFilters = () => {
@@ -26,7 +26,7 @@ const ProductFilter = ({ onFilterChange }) => {
       category: "",
     };
     setLocalFilters(clearedFilters);
-    onFilterChange(clearedFilters);
+    onFilterChange(clearedFilters); // 👉 comunicar al padre
   };
 
   return (
