@@ -96,7 +96,7 @@ const FilterProducts = () => {
 
   return (
     <div className="page-container">
-      <h2>🔍 Filtro de Productos</h2>
+      
       <ProductFilter onFilterChange={handleFilterChange} />
 
       {loading ? (

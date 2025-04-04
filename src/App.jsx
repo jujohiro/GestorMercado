@@ -17,29 +17,30 @@ function App() {
   const { user } = useAuth();
 
   return (
-    <>
-      {user && <Navbar />}
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/reset-password" element={<ResetPassword />} /> 
-        <Route path="/" element={user ? <HomeComponent correoUsuario={user.email} /> : <Navigate to="/login" />} />
-        {user && (
-          <>
-            <Route path="/categorias" element={<CategoryManager />} />
-            <Route path="/productos/:categoryName" element={<CategoryProducts />} />
-            
-            {/* 🔥 Cambiado para permitir agregar productos SIN categoría especificada */}
-            <Route path="/productos/agregar" element={<ProductForm />} /> 
-            <Route path="/productos/agregar/:categoryName" element={<ProductForm />} /> 
+    <div className="app-container"> {/* 🔥 Añadimos un contenedor principal */}
+      {user && <Navbar />} {/* 🔥 Este Navbar siempre se renderiza */}
+      
+      <div className="content"> {/* 🔥 Este contenedor será el que cambie de contenido */}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<ResetPassword />} /> 
+          <Route path="/" element={user ? <HomeComponent correoUsuario={user.email} /> : <Navigate to="/login" />} />
 
-            <Route path="/productos/lista" element={<ProductList />} />
-            <Route path="/filter-products" element={<FilterProducts />} />
-            <Route path="/comparar-precios" element={<PriceComparison />} />
-            <Route path="/resumen-mensual" element={<MonthlySummary />} />
-          </>
-        )}
-      </Routes>
-    </>
+          {user && (
+            <>
+              <Route path="/categorias" element={<CategoryManager />} />
+              <Route path="/productos/:categoryName" element={<CategoryProducts />} />
+              <Route path="/productos/agregar" element={<ProductForm />} /> 
+              <Route path="/productos/agregar/:categoryName" element={<ProductForm />} /> 
+              <Route path="/productos/lista" element={<ProductList />} />
+              <Route path="/filter-products" element={<FilterProducts />} />
+              <Route path="/comparar-precios" element={<PriceComparison />} />
+              <Route path="/resumen-mensual" element={<MonthlySummary />} />
+            </>
+          )}
+        </Routes>
+      </div>
+    </div>
   );
 }
 
