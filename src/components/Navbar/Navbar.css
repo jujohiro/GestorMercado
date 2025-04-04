@@ -1,20 +1,31 @@
-/* General */
+/* 🌟 General */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #082341; /* Color de fondo oscuro elegante */
   color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
+/* 🌟 Título */
 .navbar-title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
   text-decoration: none;
-  color: white;
+  color: #16bfee;
+  transition: color 0.3s;
 }
 
+.navbar-title:hover {
+  color: #12a4d9;
+}
+
+/* 🌟 Links Centrales */
 .navbar-center {
   flex-grow: 1;
   text-align: center;
@@ -22,22 +33,24 @@
 
 .navbar-links {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   list-style: none;
 }
 
 .navbar-links li a {
-  color: white;
+  color: #d1e0ee;
   text-decoration: none;
-  padding: 5px 10px;
+  padding: 8px 15px;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar-links li a:hover {
-  background-color: #0056b3;
+  background-color: #16bfee;
+  color: white;
 }
 
+/* 🌟 Información del Usuario */
 .navbar-right {
   display: flex;
   align-items: center;
@@ -51,27 +64,34 @@
 }
 
 .navbar-profile-img {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid #16bfee;
+  transition: transform 0.3s;
 }
 
+.navbar-profile-img:hover {
+  transform: scale(1.05);
+}
+
+/* 🌟 Botón de Cerrar Sesión */
 .logout-btn {
-  padding: 8px 12px;
+  padding: 8px 15px;
   background-color: #ff4d4f;
   border: none;
   border-radius: 5px;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .logout-btn:hover {
   background-color: #d9363e;
+  transform: scale(1.05);
 }
 
-/* Responsive */
+/* 🔥 Responsividad para Móviles */
 @media (max-width: 768px) {
   .navbar-links {
     display: none;
@@ -83,5 +103,28 @@
 
   .navbar-right {
     flex-direction: column;
+  }
+
+  .navbar-menu {
+    display: block;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .navbar-links.responsive {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #082341;
+    width: 100%;
+    padding: 10px;
+    z-index: 999;
+  }
+
+  .navbar-links li {
+    padding: 10px 0;
+    text-align: center;
   }
 }

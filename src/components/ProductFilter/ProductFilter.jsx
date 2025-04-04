@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./ProductFilter.css";
 
 const ProductFilter = ({ onFilterChange }) => {
@@ -7,14 +7,14 @@ const ProductFilter = ({ onFilterChange }) => {
     brand: "",
     minPrice: "",
     maxPrice: "",
-    category: "",
+    category: ""
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedFilters = { ...localFilters, [name]: value };
     setLocalFilters(updatedFilters);
-    onFilterChange(updatedFilters); // 👉 comunicar al padre
+    onFilterChange(updatedFilters);
   };
 
   const handleClearFilters = () => {
@@ -23,60 +23,23 @@ const ProductFilter = ({ onFilterChange }) => {
       brand: "",
       minPrice: "",
       maxPrice: "",
-      category: "",
+      category: ""
     };
     setLocalFilters(clearedFilters);
-    onFilterChange(clearedFilters); // 👉 comunicar al padre
+    onFilterChange(clearedFilters);
   };
 
   return (
     <div className="product-filter-container">
       <h3 className="filter-title">Filtrar Productos</h3>
       <div className="filter-fields">
-        <input
-          type="text"
-          name="name"
-          placeholder="Nombre"
-          value={localFilters.name}
-          onChange={handleChange}
-          className="filter-input"
-        />
-        <input
-          type="text"
-          name="brand"
-          placeholder="Marca"
-          value={localFilters.brand}
-          onChange={handleChange}
-          className="filter-input"
-        />
-        <input
-          type="number"
-          name="minPrice"
-          placeholder="Precio mínimo"
-          value={localFilters.minPrice}
-          onChange={handleChange}
-          className="filter-input"
-        />
-        <input
-          type="number"
-          name="maxPrice"
-          placeholder="Precio máximo"
-          value={localFilters.maxPrice}
-          onChange={handleChange}
-          className="filter-input"
-        />
-        <input
-          type="text"
-          name="category"
-          placeholder="Categoría"
-          value={localFilters.category}
-          onChange={handleChange}
-          className="filter-input"
-        />
+        <input type="text" name="name" placeholder="Nombre" value={localFilters.name} onChange={handleChange} />
+        <input type="text" name="brand" placeholder="Marca" value={localFilters.brand} onChange={handleChange} />
+        <input type="text" name="category" placeholder="Categoría" value={localFilters.category} onChange={handleChange} />
+        <input type="number" name="minPrice" placeholder="Precio mínimo" value={localFilters.minPrice} onChange={handleChange} />
+        <input type="number" name="maxPrice" placeholder="Precio máximo" value={localFilters.maxPrice} onChange={handleChange} />
       </div>
-      <button className="clear-button" onClick={handleClearFilters}>
-        Limpiar filtros
-      </button>
+      <button onClick={handleClearFilters}>Limpiar filtros</button>
     </div>
   );
 };
