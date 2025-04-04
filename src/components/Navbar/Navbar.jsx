@@ -2,19 +2,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import StoreSelector from "../StoreSelector/StoreSelector";
 import "./Navbar.css";
+import { useState } from "react";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
-      await logout();         // Cierra sesión en Firebase
-      navigate("/login");     // Redirige al login
+      await logout();
+      navigate("/login");
     } catch (error) {
       console.error("Error al cerrar sesión:", error.message);
     }
   };
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <nav className="navbar">
@@ -22,18 +26,21 @@ const Navbar = () => {
         <Link to="/" className="navbar-title">Gestor de Mercado</Link>
       </div>
 
-      {user && (
-        <div className="navbar-center">
-          <ul className="navbar-links">
-            <li><Link to="/productos/lista">Productos</Link></li>
-            <li><Link to="/productos/agregar">Agregar Producto</Link></li>
-            <li><Link to="/categorias"> Categorías</Link></li>
-            <li><Link to="/comparar-precios"> Comparar Precios</Link></li>
-            <li><Link to="/filter-products"> Filtrar Productos</Link></li>
-            <li><Link to="/resumen-mensual"> Resumen Mensual</Link></li>
-          </ul>
-        </div>
-      )}
+      <div className="navbar-menu-icon" onClick={toggleMenu}>
+        ☰
+      </div>
+
+      <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
+        <ul>
+          <li><Link to="/productos/lista" onClick={toggleMenu}>Productos</Link></li>
+          <li><Link to="/productos/agregar" onClick={toggleMenu}>Agregar Producto</Link></li>
+          <li><Link to="/categorias" onClick={toggleMenu}>Categorías</Link></li>
+          <li><Link to="/comparar-precios" onClick={toggleMenu}>Comparar Precios</Link></li>
+          <li><Link to="/filter-products" onClick={toggleMenu}>Filtrar Productos</Link></li>
+          <li><Link to="/resumen-mensual" onClick={toggleMenu}>Resumen Mensual</Link></li>
+          <li><Link to="/soporte">Soporte</Link></li>
+        </ul>
+      </div>
 
       <div className="navbar-right">
         {user && (

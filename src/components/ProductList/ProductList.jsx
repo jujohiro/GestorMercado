@@ -10,10 +10,9 @@ const ProductList = ({ searchTerm = "" }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        //Solo traemos productos activos desde Firebase
         const q = query(collection(db, "products"), where("status", "==", "active"));
         const snapshot = await getDocs(q);
-        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // 🔥 Incluimos el ID del producto
+        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setAllProducts(products);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -27,52 +26,48 @@ const ProductList = ({ searchTerm = "" }) => {
     if (allProducts.length > 0) {
       const filtered = allProducts.filter(product => {
         const productName = product.name ? product.name.toLowerCase() : "";
-        const filterTerm = searchTerm.toLowerCase();
-        return productName.includes(filterTerm);
+        return productName.includes(searchTerm.toLowerCase());
       });
       setFilteredProducts(filtered);
     }
   }, [allProducts, searchTerm]);
 
-  // Función para desactivar un producto
   const handleDelete = async (id) => {
     try {
       const productRef = doc(db, "products", id);
-      await updateDoc(productRef, { status: "inactive" }); // Cambiamos a inactivo en lugar de eliminar
-      setAllProducts(allProducts.filter(product => product.id !== id)); // Actualizamos la lista sin recargar
+      await updateDoc(productRef, { status: "inactive" });
+      setAllProducts(allProducts.filter(product => product.id !== id));
       alert("Producto desactivado correctamente.");
     } catch (error) {
       console.error("Error al desactivar producto:", error);
     }
   };
+
   return (
     <div className="product-list-container">
       <h2 className="product-list-title">Lista de Productos</h2>
       {filteredProducts.length === 0 ? (
         <p>No se encontraron productos.</p>
       ) : (
-        <ul className="product-list">
+        <div className="product-list">
           {filteredProducts.map((product) => (
-            <li key={product.id} className="product-item">
+            <div key={product.id} className="product-item">
               <img 
-                src={product.image || "https://via.placeholder.com/150"} // 🔥 Imagen por defecto si no se encuentra
+                src={product.image || "https://via.placeholder.com/150"} 
                 alt={product.name}
-                style={{ width: "100px", height: "100px", objectFit: "cover" }}
               />
-              <div className="product-text">
-                {product.name || "Producto sin nombre"} - {product.brand || "Marca desconocida"}
+              <div className="product-info">
+                <h3>{product.name || "Producto sin nombre"}</h3>
+                <p>Marca: {product.brand || "Desconocida"}</p>
+                <p>Precio: ${product.price || "No registrado"}</p>
+                <button onClick={() => handleDelete(product.id)}>Eliminar</button>
               </div>
-              <div className="product-price">
-                ${product.price || "Precio no registrado"}
-              </div>
-              <button onClick={() => handleDelete(product.id)}>Eliminar</button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
- 
 };
 
 export default ProductList;

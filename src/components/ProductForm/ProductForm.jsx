@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/FirebaseConfig";
 import { collection, getDocs, addDoc, Timestamp } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 import StoreSelector from "../StoreSelector/StoreSelector";
 import "./ProductForm.css";
 
@@ -14,21 +13,21 @@ const ProductForm = () => {
   const [image, setImage] = useState("");
   const [store, setStore] = useState("");
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState([]); // 🔥 Almacena todas las categorías existentes
+  const [categories, setCategories] = useState([]);
   const [date, setDate] = useState("");
-  const navigate = useNavigate();
+  const [newCategory, setNewCategory] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const snapshot = await getDocs(collection(db, "categories")); // 🔥 Cambia esto si usas otro nombre
+        const snapshot = await getDocs(collection(db, "categories"));
         const categoryList = snapshot.docs.map(doc => doc.data().name);
         setCategories(categoryList);
       } catch (error) {
         console.error("Error al cargar categorías:", error);
       }
     };
-
     fetchCategories();
   }, []);
 
@@ -53,22 +52,24 @@ const ProductForm = () => {
         status: "active"
       });
       alert("Producto agregado correctamente.");
-      setName("");
-      setBrand("");
-      setPrice("");
-      setUnit("");
-      setQuantity("");
-      setImage("");
-      setStore("");
-      setCategory("");
-      setDate("");
+      setName(""); setBrand(""); setPrice(""); setUnit("");
+      setQuantity(""); setImage(""); setStore(""); setCategory(""); setDate("");
     } catch (error) {
       console.error("Error al agregar producto:", error);
     }
   };
 
-  const handleNewCategory = () => {
-    navigate("/categorias"); // 🔥 Redirige al formulario para crear categorías nuevas
+  const handleNewCategorySubmit = async () => {
+    if (!newCategory.trim()) return;
+    try {
+      await addDoc(collection(db, "categories"), { name: newCategory });
+      setCategories([...categories, newCategory]);
+      setNewCategory("");
+      setShowModal(false);
+      alert("Categoría agregada correctamente.");
+    } catch (error) {
+      console.error("Error al agregar categoría:", error);
+    }
   };
 
   return (
@@ -88,18 +89,10 @@ const ProductForm = () => {
           <option value="unidad">Unidad</option>
         </select>
 
-        <input
-          type="number"
-          placeholder="Cantidad"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-        />
-
+        <input type="number" placeholder="Cantidad" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         <input type="text" placeholder="URL Imagen (opcional)" value={image} onChange={(e) => setImage(e.target.value)} />
 
-        <div className="store-selector">
-          <StoreSelector selectedStore={store} setSelectedStore={setStore} />
-        </div>
+        <StoreSelector selectedStore={store} setSelectedStore={setStore} />
 
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Seleccionar Categoría</option>
@@ -110,20 +103,26 @@ const ProductForm = () => {
         </select>
 
         {category === "new" && (
-          <button type="button" onClick={handleNewCategory}>
-            Ir a Crear Nueva Categoría
-          </button>
+          <>
+            <button type="button" onClick={() => setShowModal(true)}>Agregar Nueva Categoría</button>
+          </>
         )}
 
-        <input
-          type="date"
-          className="date-input"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+        <input type="date" className="date-input" value={date} onChange={(e) => setDate(e.target.value)} />
 
         <button type="submit">Agregar Producto</button>
       </form>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Nueva Categoría</h3>
+            <input type="text" placeholder="Nombre de Categoría" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
+            <button onClick={handleNewCategorySubmit}>Guardar</button>
+            <button onClick={() => setShowModal(false)}>Cancelar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

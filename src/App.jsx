@@ -11,16 +11,17 @@ import FilterProducts from "./components/GeneralPages/FilterProducts";
 import PriceComparison from "../src/components/PriceComparison";
 import MonthlySummary from "./components/GeneralPages/MontlySummary";
 import ResetPassword from "./components/Auth/ResetPassword";
+import Support from "./components/Support/Support";
 import "./App.css";
 
 function App() {
   const { user } = useAuth();
 
   return (
-    <div className="app-container"> {/* 🔥 Añadimos un contenedor principal */}
-      {user && <Navbar />} {/* 🔥 Este Navbar siempre se renderiza */}
+    <div className="app-container"> {/* Añadimos un contenedor principal */}
+      {user && <Navbar />} {/* Este Navbar siempre se renderiza */}
       
-      <div className="content"> {/* 🔥 Este contenedor será el que cambie de contenido */}
+      <div className="content"> {/* Este contenedor será el que cambie de contenido */}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} /> 
@@ -36,6 +37,7 @@ function App() {
               <Route path="/filter-products" element={<FilterProducts />} />
               <Route path="/comparar-precios" element={<PriceComparison />} />
               <Route path="/resumen-mensual" element={<MonthlySummary />} />
+              <Route path="/soporte" element={<Support />} />
             </>
           )}
         </Routes>

@@ -1,131 +1,109 @@
-/* 🌟 General */
+/* 🔧 General */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #082341; /* Color de fondo oscuro elegante */
+  background-color: #082341;
   color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
-  width: 2240px;
 }
 
-/* 🌟 Título */
 .navbar-title {
-  font-size: 28px;
-  font-weight: bold;
-  text-decoration: none;
   color: #16bfee;
-  transition: color 0.3s;
-}
-
-.navbar-title:hover {
-  color: #12a4d9;
-}
-
-/* 🌟 Links Centrales */
-.navbar-center {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.navbar-links {
-  display: flex;
-  gap: 30px;
-  list-style: none;
-}
-
-.navbar-links li a {
-  color: #d1e0ee;
+  font-size: 24px;
   text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
 }
 
-.navbar-links li a:hover {
-  background-color: #16bfee;
+/* Menú Hamburguesa */
+.navbar-menu-icon {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Links del Navbar */
+.navbar-links ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-links ul li a {
+  text-decoration: none;
   color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-/* 🌟 Información del Usuario */
+.navbar-links ul li a:hover {
+  background-color: #16bfee;
+}
+
+/* Información del Usuario */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+/* Imagen de Perfil */
 .navbar-profile-img {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid #16bfee;
-  transition: transform 0.3s;
+  border: 2px solid white;
 }
 
-.navbar-profile-img:hover {
-  transform: scale(1.05);
-}
-
-/* 🌟 Botón de Cerrar Sesión */
+/* Botón de Cerrar Sesión */
 .logout-btn {
-  padding: 8px 15px;
   background-color: #ff4d4f;
+  padding: 8px 12px;
   border: none;
   border-radius: 5px;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s;
 }
 
 .logout-btn:hover {
   background-color: #d9363e;
-  transform: scale(1.05);
 }
 
-/* 🔥 Responsividad para Móviles */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .navbar-links {
-    display: none;
+  .navbar-menu-icon {
+    display: block;
   }
 
-  .navbar-center {
-    flex-grow: 0;
+  .navbar-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100vh;
+    background-color: #082341;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: right 0.3s;
+  }
+
+  .navbar-links.active {
+    right: 0;
+  }
+
+  .navbar-links ul {
+    flex-direction: column;
+    gap: 20px;
   }
 
   .navbar-right {
     flex-direction: column;
-  }
-
-  .navbar-menu {
-    display: block;
-    font-size: 28px;
-    cursor: pointer;
-  }
-
-  .navbar-links.responsive {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background-color: #082341;
-    width: 100%;
-    padding: 10px;
-    z-index: 999;
-  }
-
-  .navbar-links li {
-    padding: 10px 0;
-    text-align: center;
+    margin-top: 20px;
   }
 }
