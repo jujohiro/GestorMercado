@@ -1,10 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom"; 
-import { StoreProvider } from "./assets/context/StoreContext"; 
-import { CategoryProvider } from "./assets/context/CategoryContext.jsx";
-import { ProductProvider } from "./assets/context/ProductContext.jsx";
-import { AuthProvider } from "./assets/context/AuthContext";
+import { StoreProvider } from "./context/StoreContext.jsx"; 
+import { CategoryProvider } from "./context/CategoryContext.jsx";
+import { ProductProvider } from "./context/ProductContext.jsx";
+import { AuthProvider } from "./context/AuthContext";
 import "./index.css";
 import App from "./App.jsx";
 

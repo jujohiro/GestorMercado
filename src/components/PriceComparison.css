@@ -1,0 +1,41 @@
+.price-comparison-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .price-comparison-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  .price-comparison-table th, .price-comparison-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .price-comparison-table th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .price-comparison-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  select {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ProductFilter from "../ProductFilter/ProductFilter";
 import { db } from "../../components/Firebase/FirebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
-import "./FilterProducts.css"; // si lo querés estilizar igual que ProductList
+ // si lo querés estilizar igual que ProductList
 
 const FilterProducts = () => {
   const [allProducts, setAllProducts] = useState([]);

@@ -1,0 +1,29 @@
+.monthly-summary-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .monthly-summary-card {
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .monthly-summary-card h3 {
+    margin-bottom: 10px;
+  }
+  
+  .monthly-summary-card p {
+    font-weight: bold;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
