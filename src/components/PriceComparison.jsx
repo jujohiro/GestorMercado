@@ -18,7 +18,8 @@ const PriceComparison = () => {
           id: doc.id,
           ...doc.data()
         }));
-        
+
+        // Filtramos productos únicos por nombre
         const uniqueProducts = [...new Set(productsData.map(product => product.name))];
         setProducts(uniqueProducts);
       } catch (error) {
@@ -51,6 +52,9 @@ const PriceComparison = () => {
         return {
           price: data.price,
           date: data.fecha?.toDate().toLocaleDateString() || "Fecha no disponible",
+          store: data.store || "Desconocida",
+          brand: data.brand || "Desconocida",
+          category: data.category || "Sin Categoría",
         };
       });
 
@@ -86,6 +90,9 @@ const PriceComparison = () => {
             <tr>
               <th>Fecha</th>
               <th>Precio</th>
+              <th>Tienda</th>
+              <th>Marca</th>
+              <th>Categoría</th>
             </tr>
           </thead>
           <tbody>
@@ -93,6 +100,9 @@ const PriceComparison = () => {
               <tr key={index}>
                 <td>{entry.date}</td>
                 <td>${entry.price}</td>
+                <td>{entry.store}</td>
+                <td>{entry.brand}</td>
+                <td>{entry.category}</td>
               </tr>
             ))}
           </tbody>

@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import StoreSelector from "../StoreSelector/StoreSelector";
 import "./Navbar.css";
 import { useState } from "react";
 
@@ -38,16 +37,19 @@ const Navbar = () => {
           <li><Link to="/comparar-precios" onClick={toggleMenu}>Comparar Precios</Link></li>
           <li><Link to="/filter-products" onClick={toggleMenu}>Filtrar Productos</Link></li>
           <li><Link to="/resumen-mensual" onClick={toggleMenu}>Resumen Mensual</Link></li>
-          <li><Link to="/soporte">Soporte</Link></li>
+          <li><Link to="/soporte" onClick={toggleMenu}>Soporte</Link></li>
         </ul>
       </div>
 
       <div className="navbar-right">
         {user && (
           <>
-            <StoreSelector />
             <div className="user-info">
-              <img src={user.photoURL || "/default-avatar.png"} alt="Perfil" className="navbar-profile-img" />
+              <img 
+                src={user.photoURL || "/default-avatar.png"} 
+                alt="Perfil" 
+                className="navbar-profile-img" 
+              />
               <span className="user-name">{user.displayName || user.email}</span>
             </div>
             <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>

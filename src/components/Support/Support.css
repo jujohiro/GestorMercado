@@ -17,7 +17,7 @@
   }
   
   .support-form button {
-    background-color: #007bff;
+    background-color: #288d35;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -27,7 +27,7 @@
   }
   
   .support-form button:hover {
-    background-color: #0056b3;
+    background-color: #0b5a3d;
   }
   
   .success-message {
@@ -39,4 +39,4 @@
     color: red;
     margin-bottom: 10px;
   }
-  
+   

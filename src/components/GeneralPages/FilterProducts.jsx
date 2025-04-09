@@ -5,6 +5,7 @@ import { collection, getDocs, query, where, doc, updateDoc } from "firebase/fire
 import './FilterProducts.css';
 
 const FilterProducts = () => {
+  const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -18,49 +19,58 @@ const FilterProducts = () => {
     maxPrice: ""
   });
 
-  const applyFilters = async () => {
-    setLoading(true);
-    try {
-      let q = collection(db, "products");
-
-      const conditions = [];
-      
-      if (filters.name) {
-        conditions.push(where("name", ">=", filters.name));
-        conditions.push(where("name", "<=", filters.name + "\uf8ff"));
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const q = query(collection(db, "products"), where("status", "==", "active"));
+        const snapshot = await getDocs(q);
+        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setAllProducts(products);
+        setFilteredProducts(products);
+      } catch (error) {
+        console.error("Error al cargar productos:", error);
       }
-      if (filters.brand) {
-        conditions.push(where("brand", "==", filters.brand));
-      }
-      if (filters.category) {
-        conditions.push(where("category", "==", filters.category));
-      }
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
 
-      if (conditions.length > 0) {
-        q = query(q, ...conditions);
-      }
+  const applyFilters = () => {
+    let filtered = allProducts;
 
-      const snapshot = await getDocs(q);
-      let products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-      if (filters.minPrice) {
-        products = products.filter(product => product.price >= parseFloat(filters.minPrice));
-      }
-
-      if (filters.maxPrice) {
-        products = products.filter(product => product.price <= parseFloat(filters.maxPrice));
-      }
-
-      setFilteredProducts(products);
-    } catch (error) {
-      console.error("Error al aplicar filtros:", error);
+    if (filters.name) {
+      filtered = filtered.filter(product => 
+        product.name?.toLowerCase().includes(filters.name.toLowerCase())
+      );
     }
-    setLoading(false);
+
+    if (filters.brand) {
+      filtered = filtered.filter(product => 
+        product.brand?.toLowerCase().includes(filters.brand.toLowerCase())
+      );
+    }
+
+    if (filters.category) {
+      filtered = filtered.filter(product => 
+        product.category?.toLowerCase().includes(filters.category.toLowerCase())
+      );
+    }
+
+    if (filters.minPrice) {
+      filtered = filtered.filter(product => product.price >= parseFloat(filters.minPrice));
+    }
+
+    if (filters.maxPrice) {
+      filtered = filtered.filter(product => product.price <= parseFloat(filters.maxPrice));
+    }
+
+    setFilteredProducts(filtered);
   };
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
-    applyFilters();
+    applyFilters(); // Aplica los filtros cada vez que cambian
   };
 
   const handleEdit = (product) => {
@@ -82,12 +92,18 @@ const FilterProducts = () => {
         name: editedData.name,
         brand: editedData.brand,
         category: editedData.category,
-        price: parseFloat(editedData.price)
+        price: parseFloat(editedData.price),
       });
 
       setMessage("Producto actualizado con éxito.");
       setEditingProduct(null);
-      applyFilters(); // Recargar los productos actualizados
+
+      // Actualizar productos sin tener que recargar la página
+      const updatedProducts = allProducts.map(product =>
+        product.id === editedData.id ? { ...product, ...editedData } : product
+      );
+      setAllProducts(updatedProducts);
+      applyFilters(); // Aplicar filtros nuevamente con la lista actualizada
     } catch (error) {
       console.error("Error al actualizar producto:", error);
       setMessage("Error al actualizar el producto.");
@@ -96,7 +112,6 @@ const FilterProducts = () => {
 
   return (
     <div className="page-container">
-      
       <ProductFilter onFilterChange={handleFilterChange} />
 
       {loading ? (
@@ -146,7 +161,7 @@ const FilterProducts = () => {
                       <p><strong>Marca:</strong> {product.brand}</p>
                       <p><strong>Categoría:</strong> {product.category}</p>
                       <p><strong>Precio:</strong> ${product.price}</p>
-                      <button onClick={() => handleEdit(product)}>Editar</button>
+                      
                     </>
                   )}
                 </div>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/FirebaseConfig";
 import { collection, getDocs, addDoc, Timestamp } from "firebase/firestore";
-import StoreSelector from "../StoreSelector/StoreSelector";
 import "./ProductForm.css";
 
 const ProductForm = () => {
@@ -51,11 +50,11 @@ const ProductForm = () => {
         fecha: Timestamp.fromDate(new Date(date)),
         status: "active"
       });
-      alert("Producto agregado correctamente.");
+      alert("✅ Producto agregado correctamente.");
       setName(""); setBrand(""); setPrice(""); setUnit("");
       setQuantity(""); setImage(""); setStore(""); setCategory(""); setDate("");
     } catch (error) {
-      console.error("Error al agregar producto:", error);
+      console.error("❌ Error al agregar producto:", error);
     }
   };
 
@@ -66,9 +65,9 @@ const ProductForm = () => {
       setCategories([...categories, newCategory]);
       setNewCategory("");
       setShowModal(false);
-      alert("Categoría agregada correctamente.");
+      alert("✅ Categoría agregada correctamente.");
     } catch (error) {
-      console.error("Error al agregar categoría:", error);
+      console.error("❌ Error al agregar categoría:", error);
     }
   };
 
@@ -92,7 +91,7 @@ const ProductForm = () => {
         <input type="number" placeholder="Cantidad" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         <input type="text" placeholder="URL Imagen (opcional)" value={image} onChange={(e) => setImage(e.target.value)} />
 
-        <StoreSelector selectedStore={store} setSelectedStore={setStore} />
+        <input type="text" placeholder="Tienda" value={store} onChange={(e) => setStore(e.target.value)} />
 
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Seleccionar Categoría</option>
@@ -103,9 +102,7 @@ const ProductForm = () => {
         </select>
 
         {category === "new" && (
-          <>
-            <button type="button" onClick={() => setShowModal(true)}>Agregar Nueva Categoría</button>
-          </>
+          <button type="button" onClick={() => setShowModal(true)}>Agregar Nueva Categoría</button>
         )}
 
         <input type="date" className="date-input" value={date} onChange={(e) => setDate(e.target.value)} />

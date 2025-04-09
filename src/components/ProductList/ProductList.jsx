@@ -6,6 +6,13 @@ import "./ProductList.css";
 const ProductList = ({ searchTerm = "" }) => {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    brand: "",
+    price: "",
+    image: "",
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,9 +44,38 @@ const ProductList = ({ searchTerm = "" }) => {
       const productRef = doc(db, "products", id);
       await updateDoc(productRef, { status: "inactive" });
       setAllProducts(allProducts.filter(product => product.id !== id));
-      alert("Producto desactivado correctamente.");
+      alert("Producto eliminado correctamente.");
     } catch (error) {
-      console.error("Error al desactivar producto:", error);
+      console.error("Error al eliminar producto:", error);
+    }
+  };
+
+  const startEditing = (product) => {
+    setEditingProduct(product.id);
+    setEditForm({
+      name: product.name || "",
+      brand: product.brand || "",
+      price: product.price || "",
+      image: product.image || "",
+    });
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm({ ...editForm, [name]: value });
+  };
+
+  const saveEdit = async (id) => {
+    try {
+      const productRef = doc(db, "products", id);
+      await updateDoc(productRef, { ...editForm });
+      setAllProducts(allProducts.map(product => 
+        product.id === id ? { ...product, ...editForm } : product
+      ));
+      setEditingProduct(null);
+      alert("Producto actualizado correctamente.");
+    } catch (error) {
+      console.error("Error al actualizar producto:", error);
     }
   };
 
@@ -49,22 +85,52 @@ const ProductList = ({ searchTerm = "" }) => {
       {filteredProducts.length === 0 ? (
         <p>No se encontraron productos.</p>
       ) : (
-        <div className="product-list">
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="product-item">
-              <img 
-                src={product.image || "https://via.placeholder.com/150"} 
-                alt={product.name}
-              />
-              <div className="product-info">
-                <h3>{product.name || "Producto sin nombre"}</h3>
-                <p>Marca: {product.brand || "Desconocida"}</p>
-                <p>Precio: ${product.price || "No registrado"}</p>
-                <button onClick={() => handleDelete(product.id)}>Eliminar</button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <table className="product-table">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Marca</th>
+              <th>Precio</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredProducts.map((product) => (
+              editingProduct === product.id ? (
+                <tr key={product.id} className="editing-row">
+                  <td>
+                    <input name="image" value={editForm.image} onChange={handleEditChange} placeholder="URL de Imagen" />
+                  </td>
+                  <td>
+                    <input name="name" value={editForm.name} onChange={handleEditChange} placeholder="Nombre del Producto" />
+                  </td>
+                  <td>
+                    <input name="brand" value={editForm.brand} onChange={handleEditChange} placeholder="Marca" />
+                  </td>
+                  <td>
+                    <input name="price" value={editForm.price} onChange={handleEditChange} placeholder="Precio" />
+                  </td>
+                  <td>
+                    <button className="product-button save-btn" onClick={() => saveEdit(product.id)}>Guardar</button>
+                    <button className="product-button cancel-btn" onClick={() => setEditingProduct(null)}>Cancelar</button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={product.id}>
+                  <td><img src={product.image || "https://via.placeholder.com/150"} alt={product.name} /></td>
+                  <td>{product.name || "Producto sin nombre"}</td>
+                  <td>{product.brand || "Desconocida"}</td>
+                  <td>${product.price || "No registrado"}</td>
+                  <td>
+                    <button className="product-button edit-btn" onClick={() => startEditing(product)}>Editar</button>
+                    <button className="product-button delete-btn" onClick={() => handleDelete(product.id)}>Eliminar</button>
+                  </td>
+                </tr>
+              )
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

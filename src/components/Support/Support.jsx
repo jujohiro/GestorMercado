@@ -1,5 +1,6 @@
 import { useState } from "react";
-import emailjs from "emailjs-com";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../Firebase/FirebaseConfig";
 import "./Support.css";
 
 const Support = () => {
@@ -16,25 +17,25 @@ const Support = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const serviceID = "service_gestor";
-    const templateID = "template_6gggw3q";
-    const publicKey = "w79BlHFBkzn5y_oMIPtmb";
-
-    emailjs.send(serviceID, templateID, formData, publicKey)
-      .then((response) => {
-        console.log("SUCCESS!", response.status, response.text);
-        setSuccessMessage("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
-        setErrorMessage("");
-        setFormData({ name: "", email: "", message: "" });
-      })
-      .catch((error) => {
-        console.error("Error al enviar el mensaje:", error);
-        setErrorMessage("Hubo un problema al enviar el mensaje. Intenta nuevamente.");
-        setSuccessMessage("");
+    try {
+      const docRef = await addDoc(collection(db, "support_messages"), {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        timestamp: new Date()
       });
+      
+      setSuccessMessage("¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.");
+      setErrorMessage("");
+      setFormData({ name: "", email: "", message: "" });
+      console.log("Mensaje enviado con ID:", docRef.id);
+    } catch (error) {
+      console.error("Error al enviar el mensaje:", error);
+      setErrorMessage("Hubo un problema al enviar el mensaje. Intenta nuevamente.");
+      setSuccessMessage("");
+    }
   };
 
   return (
