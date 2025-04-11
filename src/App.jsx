@@ -6,7 +6,7 @@ import ProductForm from "./components/ProductForm/ProductForm";
 import CategoryProducts from "./components/CategoryProducts/CategoryProducts";
 import ProductList from "./components/ProductList/ProductList";
 import Login from "./components/Auth/Login";
-import HomeComponent from "./components/Home";
+import HomeComponent from "./components/home";
 import FilterProducts from "./components/GeneralPages/FilterProducts";
 import PriceComparison from "../src/components/PriceComparison";
 import MonthlySummary from "./components/GeneralPages/MontlySummary";
