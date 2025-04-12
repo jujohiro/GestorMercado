@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { db } from "../../components/Firebase/FirebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
-import "./MontlySummary.css";
+import "./MonthlySummary.css"; // 🔁 Asegúrate de que el nombre esté bien escrito
 
 const MonthlySummary = () => {
   const [monthlyData, setMonthlyData] = useState([]);
@@ -35,10 +35,10 @@ const MonthlySummary = () => {
         });
 
         setMonthlyData(Object.entries(monthlySummary));
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching monthly data:", error);
         setError("No se pudo cargar el resumen mensual.");
+      } finally {
         setLoading(false);
       }
     };
@@ -59,7 +59,7 @@ const MonthlySummary = () => {
               <p>Total Gastado: ${data.total.toFixed(2)}</p>
               <ul>
                 {data.products.map(product => (
-                  <li key={product.id}>
+                  <li key={product.id} style={{ color: "#000" }}>
                     {product.name} - ${product.price}
                   </li>
                 ))}

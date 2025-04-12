@@ -5,12 +5,12 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: #000; /* ✅ Color global del texto */
+  color: #000; /* 🔥 Letra negra global */
 }
 
 .monthly-summary-container h2 {
   text-align: center;
-  color: #082341; /* azul oscuro para el título */
+  color: #082341;
   margin-bottom: 20px;
 }
 
@@ -21,7 +21,6 @@
   border-radius: 8px;
   border-left: 5px solid #007bff;
   transition: transform 0.3s;
-  color: #000; /* ✅ Asegura texto negro dentro de las tarjetas */
 }
 
 .monthly-summary-card:hover {
@@ -33,35 +32,33 @@
   color: #007bff;
 }
 
-.monthly-summary-card p {
+.monthly-summary-card p,
+.monthly-summary-card li {
   font-weight: bold;
-  color: #000; /* ✅ Texto fuerte en negro */
+  color: #000; /* ✅ Texto negro asegurado */
 }
 
-/* Estilo para detalles */
 details summary {
   cursor: pointer;
   padding: 5px;
   font-weight: bold;
-  color: #000; /* ✅ Color del texto del resumen */
+  color: #000;
 }
 
-/* Eliminamos cualquier estilo de lista */
 details ul, details li {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  color: #000; /* ✅ Asegura color para contenido dentro del details */
+  color: #000;
 }
 
-/* Mejor presentación del contenido dentro del details */
 details div {
   padding-left: 10px;
   margin-top: 5px;
   color: #000;
 }
 
-/* 📱 Responsivo */
+/* Responsive */
 @media (max-width: 768px) {
   .monthly-summary-container {
     padding: 10px;
