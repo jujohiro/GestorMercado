@@ -29,8 +29,9 @@ const Navbar = () => {
         ☰
       </div>
 
-      <div className={`navbar-links-container ${menuOpen ? "active" : ""}`}>
-        <ul className="navbar-links">
+      {/* Menú de navegación responsive */}
+      <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
+        <ul>
           <li><Link to="/productos/lista" onClick={toggleMenu}>Productos</Link></li>
           <li><Link to="/productos/agregar" onClick={toggleMenu}>Agregar Producto</Link></li>
           <li><Link to="/categorias" onClick={toggleMenu}>Categorías</Link></li>
