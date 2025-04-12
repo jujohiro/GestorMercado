@@ -95,4 +95,18 @@
     padding: 4px 8px;
     font-size: 0.7rem;
   }
+  /* Contenedor para hacer la tabla scroll horizontal en móviles */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Estilo del título de la lista de productos */
+.product-list-title {
+  color: #082341;
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
 }

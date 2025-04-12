@@ -25,7 +25,6 @@ const ProductList = ({ searchTerm = "" }) => {
         console.error("Error fetching products:", error);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -69,7 +68,7 @@ const ProductList = ({ searchTerm = "" }) => {
     try {
       const productRef = doc(db, "products", id);
       await updateDoc(productRef, { ...editForm });
-      setAllProducts(allProducts.map(product => 
+      setAllProducts(allProducts.map(product =>
         product.id === id ? { ...product, ...editForm } : product
       ));
       setEditingProduct(null);
@@ -85,52 +84,54 @@ const ProductList = ({ searchTerm = "" }) => {
       {filteredProducts.length === 0 ? (
         <p>No se encontraron productos.</p>
       ) : (
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Marca</th>
-              <th>Precio</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.map((product) => (
-              editingProduct === product.id ? (
-                <tr key={product.id} className="editing-row">
-                  <td>
-                    <input name="image" value={editForm.image} onChange={handleEditChange} placeholder="URL de Imagen" />
-                  </td>
-                  <td>
-                    <input name="name" value={editForm.name} onChange={handleEditChange} placeholder="Nombre del Producto" />
-                  </td>
-                  <td>
-                    <input name="brand" value={editForm.brand} onChange={handleEditChange} placeholder="Marca" />
-                  </td>
-                  <td>
-                    <input name="price" value={editForm.price} onChange={handleEditChange} placeholder="Precio" />
-                  </td>
-                  <td>
-                    <button className="product-button save-btn" onClick={() => saveEdit(product.id)}>Guardar</button>
-                    <button className="product-button cancel-btn" onClick={() => setEditingProduct(null)}>Cancelar</button>
-                  </td>
-                </tr>
-              ) : (
-                <tr key={product.id}>
-                  <td><img src={product.image || "https://via.placeholder.com/150"} alt={product.name} /></td>
-                  <td>{product.name || "Producto sin nombre"}</td>
-                  <td>{product.brand || "Desconocida"}</td>
-                  <td>${product.price || "No registrado"}</td>
-                  <td>
-                    <button className="product-button edit-btn" onClick={() => startEditing(product)}>Editar</button>
-                    <button className="product-button delete-btn" onClick={() => handleDelete(product.id)}>Eliminar</button>
-                  </td>
-                </tr>
-              )
-            ))}
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          <table className="product-table">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredProducts.map((product) =>
+                editingProduct === product.id ? (
+                  <tr key={product.id} className="editing-row">
+                    <td>
+                      <input name="image" value={editForm.image} onChange={handleEditChange} placeholder="URL de Imagen" />
+                    </td>
+                    <td>
+                      <input name="name" value={editForm.name} onChange={handleEditChange} placeholder="Nombre del Producto" />
+                    </td>
+                    <td>
+                      <input name="brand" value={editForm.brand} onChange={handleEditChange} placeholder="Marca" />
+                    </td>
+                    <td>
+                      <input name="price" value={editForm.price} onChange={handleEditChange} placeholder="Precio" />
+                    </td>
+                    <td>
+                      <button className="product-button save-btn" onClick={() => saveEdit(product.id)}>Guardar</button>
+                      <button className="product-button cancel-btn" onClick={() => setEditingProduct(null)}>Cancelar</button>
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={product.id}>
+                    <td><img src={product.image || "https://via.placeholder.com/150"} alt={product.name} /></td>
+                    <td>{product.name || "Producto sin nombre"}</td>
+                    <td>{product.brand || "Desconocida"}</td>
+                    <td>${product.price || "No registrado"}</td>
+                    <td>
+                      <button className="product-button edit-btn" onClick={() => startEditing(product)}>Editar</button>
+                      <button className="product-button delete-btn" onClick={() => handleDelete(product.id)}>Eliminar</button>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

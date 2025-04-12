@@ -1,64 +1,141 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import "./Navbar.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "../Firebase/FirebaseConfig";
+import { collection, getDocs, query, where, updateDoc, doc } from "firebase/firestore";
+import "./ProductList.css";
 
-const Navbar = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
+const ProductList = ({ searchTerm = "" }) => {
+  const [allProducts, setAllProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    brand: "",
+    price: "",
+    image: "",
+  });
 
-  const handleLogout = async () => {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const q = query(collection(db, "products"), where("status", "==", "active"));
+        const snapshot = await getDocs(q);
+        const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setAllProducts(products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (allProducts.length > 0) {
+      const filtered = allProducts.filter(product => {
+        const productName = product.name ? product.name.toLowerCase() : "";
+        return productName.includes(searchTerm.toLowerCase());
+      });
+      setFilteredProducts(filtered);
+    }
+  }, [allProducts, searchTerm]);
+
+  const handleDelete = async (id) => {
     try {
-      await logout();
-      navigate("/login");
+      const productRef = doc(db, "products", id);
+      await updateDoc(productRef, { status: "inactive" });
+      setAllProducts(allProducts.filter(product => product.id !== id));
+      alert("Producto eliminado correctamente.");
     } catch (error) {
-      console.error("Error al cerrar sesión:", error.message);
+      console.error("Error al eliminar producto:", error);
     }
   };
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const startEditing = (product) => {
+    setEditingProduct(product.id);
+    setEditForm({
+      name: product.name || "",
+      brand: product.brand || "",
+      price: product.price || "",
+      image: product.image || "",
+    });
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm({ ...editForm, [name]: value });
+  };
+
+  const saveEdit = async (id) => {
+    try {
+      const productRef = doc(db, "products", id);
+      await updateDoc(productRef, { ...editForm });
+      setAllProducts(allProducts.map(product => 
+        product.id === id ? { ...product, ...editForm } : product
+      ));
+      setEditingProduct(null);
+      alert("Producto actualizado correctamente.");
+    } catch (error) {
+      console.error("Error al actualizar producto:", error);
+    }
+  };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-left">
-        <Link to="/" className="navbar-title">Gestor de Mercado</Link>
-      </div>
-
-      <div className="navbar-menu-icon" onClick={toggleMenu}>
-        ☰
-      </div>
-
-      {/* Menú de navegación responsive */}
-      <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
-        <ul>
-          <li><Link to="/productos/lista" onClick={toggleMenu}>Productos</Link></li>
-          <li><Link to="/productos/agregar" onClick={toggleMenu}>Agregar Producto</Link></li>
-          <li><Link to="/categorias" onClick={toggleMenu}>Categorías</Link></li>
-          <li><Link to="/comparar-precios" onClick={toggleMenu}>Comparar Precios</Link></li>
-          <li><Link to="/filter-products" onClick={toggleMenu}>Filtrar Productos</Link></li>
-          <li><Link to="/resumen-mensual" onClick={toggleMenu}>Resumen Mensual</Link></li>
-          <li><Link to="/soporte" onClick={toggleMenu}>Soporte</Link></li>
-        </ul>
-      </div>
-
-      <div className="navbar-right">
-        {user && (
-          <>
-            <div className="user-info">
-              <img
-                src={user.photoURL || "/default-avatar.png"}
-                alt="Perfil"
-                className="navbar-profile-img"
-              />
-              <span className="user-name">{user.displayName || user.email}</span>
-            </div>
-            <button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button>
-          </>
-        )}
-      </div>
-    </nav>
+    <div className="product-list-container">
+      <h2 className="product-list-title" style={{ color: '#082341' }}>Lista de Productos</h2>
+      {filteredProducts.length === 0 ? (
+        <p>No se encontraron productos.</p>
+      ) : (
+        <div className="table-responsive">
+          <table className="product-table">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredProducts.map((product) => (
+                editingProduct === product.id ? (
+                  <tr key={product.id} className="editing-row">
+                    <td>
+                      <input name="image" value={editForm.image} onChange={handleEditChange} placeholder="URL de Imagen" />
+                    </td>
+                    <td>
+                      <input name="name" value={editForm.name} onChange={handleEditChange} placeholder="Nombre del Producto" />
+                    </td>
+                    <td>
+                      <input name="brand" value={editForm.brand} onChange={handleEditChange} placeholder="Marca" />
+                    </td>
+                    <td>
+                      <input name="price" value={editForm.price} onChange={handleEditChange} placeholder="Precio" />
+                    </td>
+                    <td>
+                      <button className="product-button save-btn" onClick={() => saveEdit(product.id)}>Guardar</button>
+                      <button className="product-button cancel-btn" onClick={() => setEditingProduct(null)}>Cancelar</button>
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={product.id}>
+                    <td><img src={product.image || "https://via.placeholder.com/150"} alt={product.name} /></td>
+                    <td>{product.name || "Producto sin nombre"}</td>
+                    <td>{product.brand || "Desconocida"}</td>
+                    <td>${product.price || "No registrado"}</td>
+                    <td>
+                      <button className="product-button edit-btn" onClick={() => startEditing(product)}>Editar</button>
+                      <button className="product-button delete-btn" onClick={() => handleDelete(product.id)}>Eliminar</button>
+                    </td>
+                  </tr>
+                )
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default Navbar;
+export default ProductList;

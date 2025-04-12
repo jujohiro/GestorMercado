@@ -60,6 +60,11 @@
   height: 36px;
   border-radius: 50%;
 }
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
 
 /* Responsive menu styles */
 @media (max-width: 768px) {
