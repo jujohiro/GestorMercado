@@ -1,4 +1,3 @@
-/* 🔧 General */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -17,21 +16,28 @@
   text-decoration: none;
 }
 
-/* Menú Hamburguesa */
+/* Icono hamburguesa */
 .navbar-menu-icon {
-  display: none;
   font-size: 28px;
   cursor: pointer;
+  display: none;
+  color: white;
 }
 
-/* Links del Navbar */
-.navbar-links ul {
-  list-style: none;
+/* Contenedor de enlaces (desktop + mobile) */
+.navbar-links-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Lista de enlaces desktop */
+.navbar-links {
   display: flex;
   gap: 20px;
+  list-style: none;
 }
 
-.navbar-links ul li a {
+.navbar-links li a {
   text-decoration: none;
   color: white;
   padding: 8px 12px;
@@ -39,18 +45,17 @@
   transition: background-color 0.3s;
 }
 
-.navbar-links ul li a:hover {
+.navbar-links li a:hover {
   background-color: #16bfee;
 }
 
-/* Información del Usuario */
+/* Información del usuario */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
-/* Imagen de Perfil */
 .navbar-profile-img {
   width: 40px;
   height: 40px;
@@ -58,7 +63,6 @@
   border: 2px solid white;
 }
 
-/* Botón de Cerrar Sesión */
 .logout-btn {
   background-color: #ff4d4f;
   padding: 8px 12px;
@@ -73,37 +77,37 @@
   background-color: #d9363e;
 }
 
-/* Responsive Design */
+/* Responsive para móviles */
 @media (max-width: 768px) {
   .navbar-menu-icon {
     display: block;
   }
 
-  .navbar-links {
+  .navbar-links-container {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 250px;
     height: 100vh;
+    width: 250px;
     background-color: #082341;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: right 0.3s;
+    transition: right 0.3s ease-in-out;
+    z-index: 999;
   }
 
-  .navbar-links.active {
+  .navbar-links-container.active {
     right: 0;
   }
 
-  .navbar-links ul {
+  .navbar-links {
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
+    text-align: center;
   }
 
   .navbar-right {
-    flex-direction: column;
-    margin-top: 20px;
+    display: none;
   }
 }

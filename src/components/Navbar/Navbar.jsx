@@ -29,8 +29,8 @@ const Navbar = () => {
         ☰
       </div>
 
-      <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
-        <ul>
+      <div className={`navbar-links-container ${menuOpen ? "active" : ""}`}>
+        <ul className="navbar-links">
           <li><Link to="/productos/lista" onClick={toggleMenu}>Productos</Link></li>
           <li><Link to="/productos/agregar" onClick={toggleMenu}>Agregar Producto</Link></li>
           <li><Link to="/categorias" onClick={toggleMenu}>Categorías</Link></li>
@@ -45,10 +45,10 @@ const Navbar = () => {
         {user && (
           <>
             <div className="user-info">
-              <img 
-                src={user.photoURL || "/default-avatar.png"} 
-                alt="Perfil" 
-                className="navbar-profile-img" 
+              <img
+                src={user.photoURL || "/default-avatar.png"}
+                alt="Perfil"
+                className="navbar-profile-img"
               />
               <span className="user-name">{user.displayName || user.email}</span>
             </div>
