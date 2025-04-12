@@ -7,7 +7,7 @@ import ProductForm from "../components/ProductForm/ProductForm";
 const HomeComponent = ({ correoUsuario }) => {
   return (
     <div className="home-container">
-      <h2>Bienvenido, {correoUsuario}</h2>
+        <h2 className="welcome-title">Bienvenido, {correoUsuario}</h2>
       
       {/*Mostrar gestión de productos aquí */}
       <CategoryManager />
