@@ -42,10 +42,10 @@ const CategoryProducts = () => {
 
               {editingProduct === product.id ? (
                 <>
-                  <input name="name" value={editedData.name} onChange={handleChange} />
-                  <input name="brand" value={editedData.brand} onChange={handleChange} />
-                  <input name="price" type="number" value={editedData.price} onChange={handleChange} />
-                  <input name="unit" value={editedData.unit} onChange={handleChange} />
+                  <input name="name" value={editedData.name} onChange={handleChange} placeholder="Nombre" />
+                  <input name="brand" value={editedData.brand} onChange={handleChange} placeholder="Marca" />
+                  <input name="price" type="number" value={editedData.price} onChange={handleChange} placeholder="Precio" />
+                  <input name="unit" value={editedData.unit} onChange={handleChange} placeholder="Unidad" />
                   <button className="save-btn" onClick={handleSave}>Guardar</button>
                 </>
               ) : (
@@ -54,8 +54,8 @@ const CategoryProducts = () => {
                   <p><strong>Marca:</strong> {product.brand}</p>
                   <p><strong>Precio:</strong> ${product.price} / {product.unit}</p>
                   <div className="btn-group">
-                  <button onClick={() => handleEdit(product)}>Editar</button>
-                 <button onClick={() => removeProduct(product.id)}>Eliminar</button>
+                    <button className="edit-btn" onClick={() => handleEdit(product)}>Editar</button>
+                    <button className="delete-btn" onClick={() => removeProduct(product.id)}>Eliminar</button>
                   </div>
                 </>
               )}
@@ -70,4 +70,3 @@ const CategoryProducts = () => {
 };
 
 export default CategoryProducts;
-
