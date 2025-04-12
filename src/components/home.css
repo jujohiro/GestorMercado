@@ -1,0 +1,15 @@
+.home-container {
+    color: #082341; /* azul oscuro para buena legibilidad */
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive ajustes para móviles */
+  @media (max-width: 480px) {
+    .home-container {
+      font-size: 1.4rem;
+      color: #082341; /* asegúrate de mantener el color oscuro */
+    }
+  }
+  
